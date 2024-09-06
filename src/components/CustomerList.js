@@ -107,21 +107,22 @@ class CustomerList extends Component {
             <ul className="list-group">
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer, index) => (
-                  <Link
-                    to={`/profile/${customer._id}`}
-                    className="list-group-item-action mt-2"
-                  >
+                  
                     <li
                       key={customer._id}
                       className="list-group-item"
                     >
-                     
+                     <Link
+                    to={`/profile/${customer._id}`}
+                    className="list-group-item-action mt-2"
+                  >
                      <div>
                      <h4>
                         {index + 1}. {customer.firstName} {customer.lastName}
                       </h4>
                       <p>CELL: {customer.phoneNumber}</p>
                      </div>
+                     </Link>
                      
                       <div><button
                         className="btn btn-danger"
@@ -130,7 +131,6 @@ class CustomerList extends Component {
                         Delete
                       </button></div>
                     </li>
-                  </Link>
                 ))
               ) : (
                 <li className="list-group-item">No customers found</li>

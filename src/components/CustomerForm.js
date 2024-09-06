@@ -71,6 +71,7 @@ class CustomerForm extends Component {
     if (!this.validateForm()) {
       return;
     }
+    alert("Submitted Successfully!")
 
     this.setState({ loading: true });
 

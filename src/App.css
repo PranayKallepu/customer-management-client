@@ -28,6 +28,7 @@ h2 {
 
 .list-group-item {
   background-color: rgb(252, 253, 253);
+  margin-bottom: 10px;
 }
 
 a {
