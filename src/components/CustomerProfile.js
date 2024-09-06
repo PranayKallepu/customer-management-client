@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import {  CircleLoader } from 'react-spinners';
 
 class CustomerProfile extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class CustomerProfile extends Component {
       errorMessage: '',
       viewAddAddress: false,
       viewUpdateAddressIndex: null,
+      loading: true,
       newAddress: {
         street: '',
         city: '',
@@ -39,11 +41,11 @@ class CustomerProfile extends Component {
       })
       .then((data) => {
         console.log("Fetched customer data:", data);
-        this.setState({ customer: data });
+        this.setState({ customer: data, loading:false });
       })
       .catch((error) => {
         console.error('Error fetching customer:', error);
-        this.setState({ errorMessage: 'Error fetching customer data' });
+        this.setState({ errorMessage: 'Error fetching customer data' , loading:false});
       });
   };
 
@@ -278,7 +280,7 @@ class CustomerProfile extends Component {
   };
 
   render() {
-    const { customer, viewUpdateAddressIndex, viewAddAddress, newAddress, errorMessage } = this.state;
+    const { customer, viewUpdateAddressIndex, viewAddAddress, loading, newAddress, errorMessage } = this.state;
     const { navigate } = this.props
     const stateOptions = [
       'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -289,8 +291,13 @@ class CustomerProfile extends Component {
       'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
     ];
 
-    if (!customer) {
-      return <div>Loading...</div>;
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <CircleLoader color="white" height={40} width={100} loading={true} />
+          <h4> Loading...</h4>
+        </div>
+      );
     }
 
     return (

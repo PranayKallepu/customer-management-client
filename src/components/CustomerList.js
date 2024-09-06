@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {  CircleLoader } from 'react-spinners';
 import '../App.css';
-import { FaSpinner } from 'react-icons/fa';
 
 class CustomerList extends Component {
   state = {
@@ -80,7 +80,8 @@ class CustomerList extends Component {
     if (loading) {
       return (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-          <FaSpinner className="spinner" size={60} />
+          <CircleLoader color="white" height={40} width={100} loading={true} />
+          <h4> Loading...</h4>
         </div>
       );
     }
