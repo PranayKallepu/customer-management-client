@@ -66,7 +66,7 @@ class CustomerProfile extends Component {
     const updatedAddresses = customer.addresses.filter((_, i) => i !== index);
 
     // Update the backend with the new set of addresses
-    fetch(`http://localhost:5000/customers/${customerId}`, {
+    fetch(`https://customer-management-server-1.onrender.com/customers/${customerId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ class CustomerProfile extends Component {
     const updatedAddresses = [...customer.addresses, newAddress];
 
     // Update the backend with the new address
-    fetch(`http://localhost:5000/customers/${customerId}`, {
+    fetch(`https://customer-management-server-1.onrender.com/customers/${customerId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ class CustomerProfile extends Component {
     const { id } = this.props;
     this.setState({ loading: true });
 
-    fetch(`http://localhost:5000/customers/${id}`, {
+    fetch(`https://customer-management-server-1.onrender.com/customers/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ class CustomerProfile extends Component {
   handleDeleteCustomer = () => {
     const { id } = this.props;
     if (window.confirm('Are you sure you want to delete this customer?')) {
-      fetch(`http://localhost:5000/customers/${id}`, { method: 'DELETE' })
+      fetch(`https://customer-management-server-1.onrender.com/customers/${id}`, { method: 'DELETE' })
         .then((res) => {
           if (!res.ok) {
             throw new Error('Failed to delete customer');
@@ -248,7 +248,7 @@ class CustomerProfile extends Component {
     updatedAddresses[viewUpdateAddressIndex] = newAddress;
 
     // Update the backend with the updated address
-    fetch(`http://localhost:5000/customers/${customerId}`, {
+    fetch(`https://customer-management-server-1.onrender.com/customers/${customerId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

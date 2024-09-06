@@ -20,9 +20,17 @@ class UpdateCustomer extends Component {
 
     fetchCustomer = (id) => {
         fetch(`https://customer-management-server-1.onrender.com/customers/${id}`)
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Failed to fetch customer');
+                }
+                return res.json();
+            })
             .then((data) => this.setState({ customer: data }))
-            .catch((error) => console.error('Error:', error));
+            .catch((error) => {
+                console.error('Error fetching customer:', error);
+                this.setState({ errorMessage: 'Error fetching customer' });
+            });
     };
 
     handleInputChange = (e) => {
@@ -45,6 +53,8 @@ class UpdateCustomer extends Component {
         const { id } = this.props;
         this.setState({ loading: true });
 
+        console.log("Submitting customer update:", this.state.customer);
+
         fetch(`https://customer-management-server-1.onrender.com/customers/${id}`, {
             method: 'PUT',
             headers: {
@@ -54,7 +64,10 @@ class UpdateCustomer extends Component {
         })
             .then((res) => {
                 if (!res.ok) {
-                    throw new Error('Failed to update customer');
+                    return res.json().then(errorData => {
+                        console.error("Error from server:", errorData);
+                        throw new Error(errorData.message || 'Failed to update customer');
+                    });
                 }
                 return res.json();
             })
@@ -65,7 +78,7 @@ class UpdateCustomer extends Component {
             })
             .catch((error) => {
                 console.error('Error updating customer:', error);
-                this.setState({ loading: false, errorMessage: 'Error updating customer' });
+                this.setState({ loading: false, errorMessage: error.message });
             });
     };
 
@@ -178,3 +191,4 @@ const UpdateCustomerWrapper = () => {
 };
 
 export default UpdateCustomerWrapper;
+// 
