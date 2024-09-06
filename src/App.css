@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: "Roboto";
 }
 
 body {
@@ -10,15 +11,14 @@ body {
 }
 
 .bg-container{
-  background-image: url("http://www.metodisrl.com/wp-content/uploads/2018/10/customer-background-1-1024x527.png");
+  /* background-image: url("http://www.metodisrl.com/wp-content/uploads/2018/10/customer-background-1-1024x527.png"); */
+  background-color: #041526;
   background-size: cover;
   min-height: 100vh;
-  
 }
 
 h2 {
   padding-top: 10px;
-  font-family: "Roboto";
   font-weight: bold;
   text-align: center;
   color: #ffffff;
@@ -30,18 +30,6 @@ h2 {
   background-color: rgb(252, 253, 253);
 }
 
-li {
-  background-color: #f9f9f9;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-li:hover {
-  background-color: #e0e0e0;
-}
-
 a {
   text-decoration: none;
   color: #333;
@@ -49,6 +37,10 @@ a {
 
 a:hover {
   color: #007bff;
+}
+
+.btn{
+  margin-right: 10px;
 }
 
 .button {
@@ -87,16 +79,61 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
 }
-.address-card{
-  border-color: black;
-  border-width: 2px;
+.list-group-item-action{
+  border-radius: 10px;
+  
+}
+.list-group-item{
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width:567px) {
+  .list-group-item{
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+.list-card{
+  list-style: none;
+}
+.cards{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 .card{
-  width: 350px;
-  margin: 30px;
+  background-color: transparent;
+  border: 1px solid white;
+}
+.bg-card{
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.alert{
+  color: red;
+  text-align: center;
+
+}
+.form-label{
+  color: #ffffff;
+}
+
+.profile-container{  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .new-address-card{
   background-color: #dcd7d7;
-  margin-left: 300px;
-  margin-right: 300px;
+  max-width: 300px;
+  
+}
+@media screen and (min-width:576px) {
+  .new-address-card{
+    border: 1px solid red;
+    margin-left: 300px;
+    margin-right: 300px;
+  }
 }

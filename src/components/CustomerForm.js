@@ -40,25 +40,25 @@ class CustomerForm extends Component {
     const phoneRegex = /^\d{10}$/;
 
     if (!firstName || !lastName || !phoneNumber || !emailAddress) {
-      this.setState({ errorMessage: 'Please fill in all the details' });
+      this.setState({ errorMessage: '*Please fill in all the details' });
       return false;
     }
     if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-      this.setState({ errorMessage: 'Names should contain only alphabetical characters' });
+      this.setState({ errorMessage: '*Names should contain only alphabetical characters' });
       return false;
     }
     if (!phoneRegex.test(phoneNumber)) {
-      this.setState({ errorMessage: 'Phone number must contain exactly 10 digits' });
+      this.setState({ errorMessage: '*Phone number must contain exactly 10 digits' });
       return false;
     }
     if (!emailRegex.test(emailAddress)) {
-      this.setState({ errorMessage: 'Please enter a valid email address' });
+      this.setState({ errorMessage: '*Please enter a valid email address' });
       return false;
     }
 
     for (let address of addresses) {
       if (!address.city || !address.state || !address.pinCode) {
-        this.setState({ errorMessage: 'Please fill in all address details' });
+        this.setState({ errorMessage: '*Please fill in all address details' });
         return false;
       }
     }
@@ -120,9 +120,12 @@ class CustomerForm extends Component {
     return (
       <div className="container">
         <h2 className="text-center mb-4">Customer Form</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div className="container-box p-3">
-            <div className="card p-3 mb-3">
+
+        <form className='border p-4 rounded shadow-sm' onSubmit={this.handleSubmit}>
+
+          <div className="cards p-3">
+
+            <div className=" card p-3 mb-3">
               <div className="mb-3">
                 <label className="form-label">First Name:</label>
                 <input
@@ -177,8 +180,8 @@ class CustomerForm extends Component {
             </div>
             
             {addresses.map((address, index) => (
-              <div key={index} className="card border p-3 mb-3 rounded">
-                <h6 className='text-center'>Address {index + 1}:</h6>
+              <div key={index} className=" card  p-3 mb-3 rounded">
+                <h6 style={{color:"white"}} className='text-center'>Address {index + 1}:</h6>
                 <div className="mb-3">
                   <label className="form-label">Street:</label>
                   <input
@@ -238,7 +241,8 @@ class CustomerForm extends Component {
               </div>
             ))}
           </div>
-        
+
+          {errorMessage && <div className="alert ">{errorMessage}</div>}
           <div className='d-flex flex-row justify-content-center'>
             <button type="button" className="btn btn-primary mt-3 mb-3" onClick={this.addAddress}>Add Address</button>
             <button type="submit" className="btn btn-success mt-3 mb-3" disabled={loading}>
@@ -246,9 +250,10 @@ class CustomerForm extends Component {
             </button>
             <button className="btn btn-secondary mt-3 mb-3" onClick={() => this.props.navigate('/')}>Home</button>
           </div>
+
         </form>
 
-        {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
+        
       </div>
     );
   }

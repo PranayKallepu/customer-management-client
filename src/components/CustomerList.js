@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
+import { FaSpinner } from 'react-icons/fa';
 
 class CustomerList extends Component {
   state = {
     customers: [],
     searchQuery: '',
     error: null,
+    loading: true,
   };
 
   componentDidMount() {
@@ -23,11 +25,11 @@ class CustomerList extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({ customers: data });
+        this.setState({ customers: data, loading: false }); // Set loading to false after fetching data
       })
       .catch((error) => {
         console.error('Fetch error:', error);
-        this.setState({ error: error.message });
+        this.setState({ error: error.message, loading: false }); // Set loading to false even on error
       });
   };
 
@@ -60,7 +62,7 @@ class CustomerList extends Component {
   };
 
   render() {
-    const { customers, searchQuery, error } = this.state;
+    const { customers, searchQuery, error, loading } = this.state;
     const { navigate } = this.props;
 
     // Filter customers based on the search query
@@ -73,6 +75,14 @@ class CustomerList extends Component {
 
     if (error) {
       return <div className="alert alert-danger">Error: {error}</div>;
+    }
+
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <FaSpinner className="spinner" size={60} />
+        </div>
+      );
     }
 
     return (
@@ -97,26 +107,30 @@ class CustomerList extends Component {
             <ul className="list-group">
               {filteredCustomers.length > 0 ? (
                 filteredCustomers.map((customer, index) => (
-                  <li
-                    key={customer._id}
-                    className="list-group-item d-flex justify-content-between align-items-center mt-2"
+                  <Link
+                    to={`/profile/${customer._id}`}
+                    className="list-group-item-action mt-2"
                   >
-                    <Link
-                      to={`/profile/${customer._id}`}
-                      className="list-group-item-action"
+                    <li
+                      key={customer._id}
+                      className="list-group-item"
                     >
-                      <h4>
+                     
+                     <div>
+                     <h4>
                         {index + 1}. {customer.firstName} {customer.lastName}
                       </h4>
                       <p>CELL: {customer.phoneNumber}</p>
-                    </Link>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => this.handleDeleteCustomer(customer._id)}
-                    >
-                      Delete
-                    </button>
-                  </li>
+                     </div>
+                     
+                      <div><button
+                        className="btn btn-danger"
+                        onClick={() => this.handleDeleteCustomer(customer._id)}
+                      >
+                        Delete
+                      </button></div>
+                    </li>
+                  </Link>
                 ))
               ) : (
                 <li className="list-group-item">No customers found</li>
@@ -124,16 +138,14 @@ class CustomerList extends Component {
             </ul>
           </div>
           <div className="d-flex justify-content-center mt-4">
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate('/create')}
-          >
-            Add New Customer
-          </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate('/create')}
+            >
+              Add New Customer
+            </button>
+          </div>
         </div>
-        </div>
-
-        
       </div>
     );
   }

@@ -21,7 +21,7 @@ class CustomerProfile extends Component {
 
   componentDidMount() {
     const { id } = this.props;
-    console.log("Fetching customer with ID:", id); // Debug log
+    console.log("Fetching customer with ID:", id);
     this.fetchCustomer(id);
   }
 
@@ -30,7 +30,6 @@ class CustomerProfile extends Component {
       this.setState({ errorMessage: 'Customer ID is missing' });
       return;
     }
-
     fetch(`https://customer-management-server-1.onrender.com/customers/${id}`)
       .then((res) => {
         if (!res.ok) {
@@ -39,7 +38,7 @@ class CustomerProfile extends Component {
         return res.json();
       })
       .then((data) => {
-        console.log("Fetched customer data:", data); // Debug log
+        console.log("Fetched customer data:", data);
         this.setState({ customer: data });
       })
       .catch((error) => {
@@ -48,17 +47,14 @@ class CustomerProfile extends Component {
       });
   };
 
-  
+
 
   handleRemoveAddress = (index) => {
     const { customer } = this.state;
-
     if (!customer) {
       this.setState({ errorMessage: 'Customer data is not loaded' });
       return;
     }
-
-    // Determine the correct ID field
     const customerId = customer.id || customer._id;
 
     if (!customerId) {
@@ -300,204 +296,208 @@ class CustomerProfile extends Component {
     return (
       <>
         <h2 className=" text-center mb-4">Customer Profile</h2>
-      <div className="container p-3 border rounded">
-        <div className=' container-box'>
+        <div className="profile-container p-3 rounded">
+          <div className=' cards'>
+            <div className=" bg-card border p-3 mb-4">
+              <h4 className='mt-4'>
+                <strong>Name:</strong> {customer.firstName} {customer.lastName}
+              </h4>
+              <h5><strong>Phone:</strong> {customer.phoneNumber}</h5>
+              <h5><strong>Email:</strong> {customer.emailAddress}</h5>
 
-          <div className="card border p-3 mb-4">
-            <h4 className='mt-4'>
-              <strong>Name:</strong> {customer.firstName} {customer.lastName}
-            </h4>
-            <h5><strong>Phone:</strong> {customer.phoneNumber}</h5>
-            <h5><strong>Email:</strong> {customer.emailAddress}</h5>
+              <button
+                className="btn btn-dark my-2 mt-3"
+                onClick={() => this.props.navigate(`/update/${this.props.id}`)}>
+                Edit Customer
+              </button>
+            </div>
+
+            {customer.addresses && customer.addresses.length > 0 ? (
+              <ul className="bg-card border mb-3">
+                {customer.addresses.map((address, index) => (
+                  <li key={index} className="list-card pt-2 pb-2">
+                    <h4>Address {index + 1}:</h4>
+                    <p><strong>Street:</strong> {address.street}</p>
+                    <p><strong>City:</strong> {address.city}</p>
+                    <p><strong>State:</strong> {address.state}</p>
+                    <p><strong>Pin Code:</strong> {address.pinCode}</p>
+                    <button className='btn btn-dark mb-2' type='button' onClick={() => this.handleUpdateAddress(index)}>
+                      Update Address
+                    </button>
+                    <button
+                      className="btn btn-danger mb-2"
+                      type="button"
+                      onClick={() => this.handleRemoveAddress(index)}>
+                      Remove Address
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No addresses available.</p>
+            )}
+
+
+
+            {viewUpdateAddressIndex !== null && (
+              <div className="card p-3 mt-3 mb-3">
+                <h4 style={{ color: "white" }}>Update Address {viewUpdateAddressIndex + 1}:</h4>
+                <form onSubmit={this.handleSaveUpdatedAddress}>
+                  <div className="mb-3">
+                    <label className="form-label">Street:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="street"
+                      value={newAddress.street}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">City:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="city"
+                      value={newAddress.city}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">State:</label>
+                    <select
+                      className="form-select"
+                      name="state"
+                      value={newAddress.state}
+                      onChange={this.handleAddressChange}
+                      required
+                    >
+                      <option value="">Select State</option>
+                      {stateOptions.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Pin Code:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="pinCode"
+                      value={newAddress.pinCode}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-success">
+                    Save Address
+                  </button>
+                </form>
+              </div>
+            )}
+
+
+
+            {viewAddAddress && (
+              <div className=" p-3 mt-3 mb-3">
+                <form className='card border p-3' onSubmit={this.handleAddAddress}>
+                  <h4 style={{ color: 'white' }} >Add New Address:</h4>
+                  <div className="mb-3">
+                    <label className="form-label">Street:</label>
+                    <input
+                      placeholder='123 st colony'
+                      type="text"
+                      className="form-control"
+                      name="street"
+                      value={newAddress.street}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">City:</label>
+                    <input
+                      placeholder='Hanamkonda..'
+                      type="text"
+                      className="form-control"
+                      name="city"
+                      value={newAddress.city}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">State:</label>
+                    <select
+                      className="form-control"
+                      name="state"
+                      value={newAddress.state}
+                      onChange={this.handleAddressChange}
+                      required
+                    >
+                      <option value="">Select State</option>
+                      {stateOptions.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Pin Code:</label>
+                    <input
+                      placeholder='506001'
+                      type="text"
+                      className="form-control"
+                      name="pinCode"
+                      value={newAddress.pinCode}
+                      onChange={this.handleAddressChange}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className=" btn btn-success">Submit</button>
+                </form>
+              </div>
+            )}
+
+          </div>
+
+          <div className='d-flex flex-row justify-content-center mt-4'>
+            <button
+              className="btn btn-primary mb-3"
+              type="button"
+              onClick={this.toggleAddAddress}>
+              {viewAddAddress ? 'Cancel' : 'Add Address'}
+            </button>
 
             <button
-              className="btn btn-dark my-2 mt-3"
-              onClick={() => this.props.navigate(`/update/${this.props.id}`)}>
-              Edit Customer
+              className="btn btn-danger mb-3"
+              onClick={this.handleDeleteCustomer}>
+              Delete Customer
+            </button>
+
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
+
+            <button
+              className="btn btn-secondary mb-3"
+              onClick={() => navigate('/')}>
+              Home
             </button>
           </div>
 
-          {customer.addresses && customer.addresses.length > 0 ? (
-            <ul className="list-group mb-3">
-              {customer.addresses.map((address, index) => (
-                <li key={index} className="card">
-                  <h4>Address {index + 1}:</h4>
-                  <p><strong>Street:</strong> {address.street}</p>
-                  <p><strong>City:</strong> {address.city}</p>
-                  <p><strong>State:</strong> {address.state}</p>
-                  <p><strong>Pin Code:</strong> {address.pinCode}</p>
-                  <button className='btn btn-dark mb-2' type='button' onClick={() => this.handleUpdateAddress(index)}>
-                    Update Address
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    type="button"
-                    onClick={() => this.handleRemoveAddress(index)}>
-                    Remove Address
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No addresses available.</p>
-          )}
         </div>
-
-
-        {viewUpdateAddressIndex !== null && (
-          <div className="new-address-card border p-3 mt-3 mb-3">
-            <h3>Update Address {viewUpdateAddressIndex + 1}:</h3>
-            <form onSubmit={this.handleSaveUpdatedAddress}>
-              <div className="mb-3">
-                <label className="form-label">Street:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="street"
-                  value={newAddress.street}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">City:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="city"
-                  value={newAddress.city}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">State:</label>
-                <select
-                  className="form-select"
-                  name="state"
-                  value={newAddress.state}
-                  onChange={this.handleAddressChange}
-                  required
-                >
-                  <option value="">Select State</option>
-                  {stateOptions.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Pin Code:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="pinCode"
-                  value={newAddress.pinCode}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <button type="submit" className="btn btn-success">
-                Save Address
-              </button>
-            </form>
-          </div>
-        )}
-
-
-
-        {viewAddAddress && (
-          <div className="new-address-card border p-3 mt-3 mb-3">
-            <h3>Add New Address:</h3>
-            <form onSubmit={this.handleAddAddress}>
-              <div className="mb-3">
-                <label className="form-label">Street:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="street"
-                  value={newAddress.street}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">City:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="city"
-                  value={newAddress.city}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">State:</label>
-                <select
-                  className="form-select"
-                  name="state"
-                  value={newAddress.state}
-                  onChange={this.handleAddressChange}
-                  required
-                >
-                  <option value="">Select State</option>
-                  {stateOptions.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label">Pin Code:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="pinCode"
-                  value={newAddress.pinCode}
-                  onChange={this.handleAddressChange}
-                  required
-                />
-              </div>
-
-              <button type="submit" className=" btn btn-success">Submit</button>
-            </form>
-          </div>
-        )}
-
-        <div className='d-flex flex-row justify-content-center mt-4'>
-          <button
-            className="btn btn-primary mb-3"
-            type="button"
-            onClick={this.toggleAddAddress}>
-            {viewAddAddress ? 'Cancel' : 'Add Address'}
-          </button>
-
-          <button
-            className="btn btn-danger mb-3"
-            onClick={this.handleDeleteCustomer}>
-            Delete Customer
-          </button>
-
-          {errorMessage && <p className="text-danger">{errorMessage}</p>}
-
-          <button
-            className="btn btn-secondary mb-3"
-            onClick={() => navigate('/')}>
-            Home
-          </button>
-        </div>
-
-      </div>
       </>
     );
   }
