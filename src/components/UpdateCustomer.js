@@ -19,7 +19,7 @@ class UpdateCustomer extends Component {
     }
 
     fetchCustomer = (id) => {
-        fetch(`http://localhost:5000/customers/${id}`)
+        fetch(`https://customer-management-server-1.onrender.com/customers/${id}`)
             .then((res) => res.json())
             .then((data) => this.setState({ customer: data }))
             .catch((error) => console.error('Error:', error));
@@ -45,7 +45,7 @@ class UpdateCustomer extends Component {
         const { id } = this.props;
         this.setState({ loading: true });
 
-        fetch(`http://localhost:5000/customers/${id}`, {
+        fetch(`https://customer-management-server-1.onrender.com/customers/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

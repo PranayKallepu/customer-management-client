@@ -15,7 +15,7 @@ class CustomerList extends Component {
   }
 
   fetchCustomers = () => {
-    fetch('http://localhost:5000/customers')
+    fetch('https://customer-management-server-1.onrender.com/customers')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,7 +37,7 @@ class CustomerList extends Component {
 
   handleDeleteCustomer = (customerId) => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
-      fetch(`http://localhost:5000/customers/${customerId}`, {
+      fetch(`https://customer-management-server-1.onrender.com/customers/${customerId}`, {
         method: 'DELETE',
       })
         .then((response) => {

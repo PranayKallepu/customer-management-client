@@ -10,7 +10,7 @@ import './App.css'
 
 class App extends Component {
   handleFormSubmit = (customerData) => {
-    fetch('http://localhost:5000/customers', {
+    fetch('https://customer-management-server-1.onrender.com/customers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(customerData),

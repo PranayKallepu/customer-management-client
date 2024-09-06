@@ -31,7 +31,7 @@ class CustomerProfile extends Component {
       return;
     }
 
-    fetch(`http://localhost:5000/customers/${id}`)
+    fetch(`https://customer-management-server-1.onrender.com/customers/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to fetch customer');

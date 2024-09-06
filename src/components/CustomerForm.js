@@ -76,7 +76,7 @@ class CustomerForm extends Component {
 
     const { firstName, lastName, phoneNumber, emailAddress, addresses } = this.state;
 
-    fetch('http://localhost:5000/customers', {
+    fetch('https://customer-management-server-1.onrender.com/customers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
