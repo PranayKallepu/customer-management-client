@@ -1,38 +1,102 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.bg-container{
+  background-image: url("http://www.metodisrl.com/wp-content/uploads/2018/10/customer-background-1-1024x527.png");
+  background-size: cover;
   min-height: 100vh;
+  
+}
+
+h2 {
+  padding-top: 10px;
+  font-family: "Roboto";
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+}
+
+
+
+.list-group-item {
+  background-color: rgb(252, 253, 253);
+}
+
+li {
+  background-color: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+li:hover {
+  background-color: #e0e0e0;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  color: #007bff;
+}
+
+.button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.search-card {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: center; 
 }
 
-.App-link {
-  color: #61dafb;
+.search-card input {
+  width: 50%; 
+  max-width: 500px; 
+  min-width: 300px; 
+  padding: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+.container-box{
+
+  min-width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.address-card{
+  border-color: black;
+  border-width: 2px;
+}
+.card{
+  width: 350px;
+  margin: 30px;
+}
+.new-address-card{
+  background-color: #dcd7d7;
+  margin-left: 300px;
+  margin-right: 300px;
 }
